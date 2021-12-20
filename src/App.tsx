@@ -32,21 +32,19 @@ const _formConfig: FormConfigItem[] = formConfig.map((el:any) => ({
 
 function App() {
   const [values, setValues] = useState<any>({});
-  const [selectValue, setSelectValue] = useState<any>(0);
-
+  const [selectValues, setSelectValues] = useState<number>(0);
   const [validation, setValidation] = useState<any>({});
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [switchPrice1, setSwitchPrice1] = useState<any>(false);
   const [switchPrice2, setSwitchPrice2] = useState<any>(false);
 
  
- 
 
-  function onChange100(checked = switchPrice1) {
+  function onChange100() {
     setSwitchPrice1(!switchPrice1)
   }
 
-  function onChange200(cchecked = switchPrice2) {
+  function onChange200() {
     setSwitchPrice2(!switchPrice2)
   }
 
@@ -61,12 +59,10 @@ function App() {
     setIsModalVisible(false);
   };
 
+ 
+  const totalPrice = selectValues + (switchPrice1  ? 100 : 0) + (switchPrice2 ? 200 : 0)
 
-
-  const totalPrice =  (switchPrice1  ? 100 : 0) + (switchPrice2 ? 200 : 0)
-
-  
-
+   
   useEffect(() => {
     let initialValidation: any = {}
     _formConfig.forEach(el => initialValidation[el.id] = true)
@@ -95,9 +91,12 @@ function App() {
     const validation = validate();
     setValidation(validation);
     const hasErrors = Object.values(validation).includes(false);
+    console.log(values, selectValues, switchPrice1, switchPrice2)
     if (hasErrors) return;
-  
    };
+
+   console.log(values, selectValues, switchPrice1, switchPrice2)
+
 
   const renderInput = (el: any) => {
     switch (el.type) {
@@ -111,7 +110,6 @@ function App() {
             value={values[el.name]}
             onChange={(e) => {
               setValues({ ...values, [el.name]: e.target.value })
-
             }}
           />
         );
@@ -124,8 +122,10 @@ function App() {
               key={el.id}
               className={!validation[el.id] ? "invalid" : "" }
               onChange={(e) => {
-                setSelectValue(e.target.value)
-                console.log(selectValue)
+                setSelectValues(parseInt(e.target.value))
+                
+                
+                console.log(selectValues)
               }}
             >
               {el.options.map((option: any, i: any) => (
