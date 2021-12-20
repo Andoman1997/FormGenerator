@@ -63,7 +63,7 @@ function App() {
 
 
 
-  const totalPrice =   (selectValue ? 50 : 0) + (switchPrice1  ? 100 : 0) + (switchPrice2 ? 200 : 0)
+  const totalPrice =  (switchPrice1  ? 100 : 0) + (switchPrice2 ? 200 : 0)
 
   
 
